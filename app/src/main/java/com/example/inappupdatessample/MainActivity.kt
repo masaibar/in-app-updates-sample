@@ -26,8 +26,13 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // 初期化する
         appUpdateManager = AppUpdateManagerFactory.create(this)
+
+        // インストール状況の更新を受け取れるようにする
         appUpdateManager.registerListener(this)
+
+        // アップデート有無を確認し、成功時のみ処理をする
         appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                 appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
@@ -63,20 +68,21 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
         if (requestCode == REQUEST_CODE_FLEXIBLE) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-
+                    // アップデートに同意
                 }
                 Activity.RESULT_CANCELED -> {
-
+                    // アップデートをキャンセル
                 }
                 ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
-
+                    // アップデートが失敗
                 }
             }
         }
     }
 
     override fun onStateUpdate(state: InstallState?) {
-        if (state?.installStatus() == InstallStatus.DOWNLOADED) {
+        if(state?.installStatus() == InstallStatus.DOWNLOADED) {
+            // ユーザーに通知する
             showDownloadedSnackbar()
         }
     }
@@ -84,10 +90,11 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
     private fun showDownloadedSnackbar() {
         Snackbar.make(
             findViewById(R.id.layout_root),
-            "ダウンロードが完了しました",
+            "アップデートがダウンロードされました。\n今すぐ更新しますか?",
             Snackbar.LENGTH_INDEFINITE
         ).run {
             setAction("更新する") {
+                // アプリを更新して再起動する
                 appUpdateManager.completeUpdate()
             }
             show()
