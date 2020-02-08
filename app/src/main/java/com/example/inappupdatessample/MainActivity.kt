@@ -52,8 +52,7 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
         super.onResume()
         appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-                // ユーザーに通知する
-                showDownloadedSnackbar()
+                showDownloadedSnackbar() // ユーザーに通知する
             }
         }
     }
@@ -79,8 +78,7 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
 
     override fun onStateUpdate(state: InstallState?) {
         if (state?.installStatus() == InstallStatus.DOWNLOADED) {
-            // ユーザーに通知する
-            showDownloadedSnackbar()
+            showDownloadedSnackbar() // ユーザーに通知する
         }
     }
 
@@ -90,8 +88,7 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
             "更新がダウンロードされました。",
             Snackbar.LENGTH_INDEFINITE
         ).setAction("更新する") {
-            // アプリを更新して再起動する
-            appUpdateManager.completeUpdate()
+            appUpdateManager.completeUpdate() // アプリを更新して再起動する
         }.show()
     }
 }
