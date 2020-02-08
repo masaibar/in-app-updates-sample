@@ -67,21 +67,18 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_FLEXIBLE) {
             when (resultCode) {
-                Activity.RESULT_OK -> {
-                    // アップデートに同意
+                Activity.RESULT_OK -> { // アップデートに同意
                 }
-                Activity.RESULT_CANCELED -> {
-                    // アップデートをキャンセル
+                Activity.RESULT_CANCELED -> { // アップデートをキャンセル
                 }
-                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
-                    // アップデートが失敗
+                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> { // アップデートが失敗
                 }
             }
         }
     }
 
     override fun onStateUpdate(state: InstallState?) {
-        if(state?.installStatus() == InstallStatus.DOWNLOADED) {
+        if (state?.installStatus() == InstallStatus.DOWNLOADED) {
             // ユーザーに通知する
             showDownloadedSnackbar()
         }
@@ -90,14 +87,11 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
     private fun showDownloadedSnackbar() {
         Snackbar.make(
             findViewById(R.id.layout_root),
-            "アップデートがダウンロードされました。\n今すぐ更新しますか?",
+            "更新がダウンロードされました。",
             Snackbar.LENGTH_INDEFINITE
-        ).run {
-            setAction("更新する") {
-                // アプリを更新して再起動する
-                appUpdateManager.completeUpdate()
-            }
-            show()
-        }
+        ).setAction("更新する") {
+            // アプリを更新して再起動する
+            appUpdateManager.completeUpdate()
+        }.show()
     }
 }
