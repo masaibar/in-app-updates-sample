@@ -36,11 +36,11 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
 
         // アップデート有無を確認し、成功時のみ処理をする
         appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                && appUpdateInfo.clientVersionStalenessDays() != null
-                && appUpdateInfo.clientVersionStalenessDays() >= DAYS_FOR_FLEXIBLE
-                && appUpdateInfo.updatePriority() >= HIGH_PRIORITY_UPDATE
-                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                appUpdateInfo.clientVersionStalenessDays() != null &&
+                appUpdateInfo.clientVersionStalenessDays() >= DAYS_FOR_FLEXIBLE &&
+                appUpdateInfo.updatePriority() >= HIGH_PRIORITY_UPDATE &&
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
             ) {
                 // Flexibleアップデートを実行する
                 appUpdateManager.startUpdateFlowForResult(
