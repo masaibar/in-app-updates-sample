@@ -2,8 +2,8 @@ package com.example.inappupdatessample
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
 
     companion object {
         private const val REQUEST_CODE_FLEXIBLE = 1234
+        private const val DAYS_FOR_FLEXIBLE = 3
+        private const val HIGH_PRIORITY_UPDATE = 5
     }
 
     private lateinit var appUpdateManager: AppUpdateManager
@@ -34,8 +36,11 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
 
         // アップデート有無を確認し、成功時のみ処理をする
         appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                && appUpdateInfo.clientVersionStalenessDays() != null
+                && appUpdateInfo.clientVersionStalenessDays() >= DAYS_FOR_FLEXIBLE
+                && appUpdateInfo.updatePriority() >= HIGH_PRIORITY_UPDATE
+                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
             ) {
                 // Flexibleアップデートを実行する
                 appUpdateManager.startUpdateFlowForResult(
