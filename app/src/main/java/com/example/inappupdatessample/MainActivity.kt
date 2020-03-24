@@ -56,6 +56,12 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
     override fun onResume() {
         super.onResume()
         appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+            if(appUpdateInfo.installStatus() == InstallStatus.DOWNLOADING) {
+                val bytesDownloaded = appUpdateInfo.bytesDownloaded()
+                val totalBytesToDownload = appUpdateInfo.totalBytesToDownload()
+                // プログレスバーの表示など
+            }
+
             if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
                 showDownloadedSnackbar() // ユーザーに通知する
             }
