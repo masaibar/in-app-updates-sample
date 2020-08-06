@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
         }
     }
 
-    override fun onStateUpdate(state: InstallState?) {
+    override fun onStateUpdate(state: InstallState) {
         // Immediateでは不要
     }
 }
