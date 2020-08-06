@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
         appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                 appUpdateInfo.clientVersionStalenessDays() != null &&
-                appUpdateInfo.clientVersionStalenessDays() >= DAYS_FOR_FLEXIBLE &&
+                appUpdateInfo.clientVersionStalenessDays()!! >= DAYS_FOR_FLEXIBLE &&
                 appUpdateInfo.updatePriority() >= HIGH_PRIORITY_UPDATE &&
                 appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
             ) {
@@ -87,8 +87,8 @@ class MainActivity : AppCompatActivity(), InstallStateUpdatedListener {
         }
     }
 
-    override fun onStateUpdate(state: InstallState?) {
-        if (state?.installStatus() == InstallStatus.DOWNLOADED) {
+    override fun onStateUpdate(state: InstallState) {
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
             showDownloadedSnackbar() // ユーザーに通知する
         }
     }
